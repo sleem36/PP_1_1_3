@@ -15,15 +15,13 @@ public class UserDaoHibernateImpl implements UserDao {
     public void createUsersTable() {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            String sql = "CREATE TABLE maven.Users " +
+            String sql = "CREATE TABLE IF NOT EXISTS Users " +
                     "(id INTEGER not NULL AUTO_INCREMENT, " +
                     " name VARCHAR(45), " +
                     " lastName VARCHAR (45), " +
                     " age INTEGER, " +
                     " PRIMARY KEY (id))";
             session.createSQLQuery(sql).addEntity(User.class).executeUpdate();
-          //  transaction.commit();
-          //  session.close();
         } catch (Exception e) {
             e.getStackTrace();
         }
@@ -33,10 +31,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            String sql = "DROP TABLE Users";
+            String sql = "DROP TABLE IF EXISTS Users";
             int query = session.createSQLQuery(sql).addEntity(User.class).executeUpdate();
-            // transaction.commit();
-            // session.close();
+            transaction.commit();
         } catch (Exception e) {
             e.getStackTrace();
         }
