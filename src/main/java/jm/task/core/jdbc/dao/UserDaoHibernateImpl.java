@@ -22,8 +22,9 @@ public class UserDaoHibernateImpl implements UserDao {
                     " age INTEGER, " +
                     " PRIMARY KEY (id))";
             session.createSQLQuery(sql).addEntity(User.class).executeUpdate();
+            transaction.commit();
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -35,7 +36,7 @@ public class UserDaoHibernateImpl implements UserDao {
             int query = session.createSQLQuery(sql).addEntity(User.class).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -50,7 +51,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.save(user); // фиксирует изменения
             session.getTransaction().commit(); // сохранить изменения
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -62,10 +63,10 @@ public class UserDaoHibernateImpl implements UserDao {
             int result = session.createQuery("delete from User where id = :id")
                     .setParameter("id", id)
                     .executeUpdate();
-            //session.save(user); // фиксирует изменения
-            //session.getTransaction().commit(); // сохранить изменения
+            session.save(user); // фиксирует изменения
+            session.getTransaction().commit(); // сохранить изменения
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -81,8 +82,10 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().openSession()) {
             session.getTransaction().begin();
             session.createQuery("delete from User").executeUpdate();
+            // Завершение транзакции
+            session.getTransaction().commit(); // сохранить изменения
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 }

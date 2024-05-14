@@ -32,14 +32,11 @@ import org.hibernate.service.ServiceRegistry;
 
 public class Util {
 
-
     private static SessionFactory sessionFactory;
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-
-                // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                 settings.put(Environment.URL, "jdbc:mysql://localhost:3306/maven?useSSL=false");
@@ -66,16 +63,6 @@ public class Util {
             }
         }
         return sessionFactory;
-    }   
-    
-    
-    
-    
-    
-//    Configuration configuration = new Configuration().configure();
-//
-//    StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-//
-//    SessionFactory factory = configuration.buildSessionFactory(builder.build());
+    }
 }
 
